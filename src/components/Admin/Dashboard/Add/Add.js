@@ -96,7 +96,7 @@ export default function Add() {
 
       const timestamp = await Date.now();
 
-      const res = await Axios.post("/movie_data/add", {
+      const res = await Axios.post("https://movie-backend-z7ch.onrender.com/movie_data/add", {
         secret,
         name,
         year,
