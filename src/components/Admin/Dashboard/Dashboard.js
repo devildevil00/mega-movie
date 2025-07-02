@@ -26,7 +26,7 @@ export default function Dashboard() {
 
       setTimeout(async () => {
         if (secret) {
-          const res = await Axios.post("/admin/check", { secret: secret });
+          const res = await Axios.post("https://movie-backend-z7ch.onrender.com/admin/check", { secret: secret });
 
           if (res.data) {
             await history.push("/A_D_M_I_N/Dashboard");
