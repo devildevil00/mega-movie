@@ -93,7 +93,7 @@ export default function Edit({ data }) {
         return;
       }
 
-      const res = await Axios.delete(`/movie_data/delete/${uid}`);
+      const res = await Axios.delete(`https://movie-backend-z7ch.onrender.com/movie_data/delete/${uid}`);
       if (res.data.msg) {
         await StatusAlertService.showError("Something Want Wrong");
       } else {
@@ -123,7 +123,7 @@ export default function Edit({ data }) {
       ) {
         const secret = localStorage.getItem("Site_New_Tokken");
 
-        const res = await Axios.post("/movie_data/update", {
+        const res = await Axios.post("https://movie-backend-z7ch.onrender.com/movie_data/update", {
           uid,
           secret,
           name,
