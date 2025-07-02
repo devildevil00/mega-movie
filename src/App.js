@@ -49,65 +49,54 @@ export default function App() {
   );
 }
 
+// ✅ Absolute backend URL
+//const BACKEND_URL = "https://movie-backend-z7ch.onrender.com";
+
 const fetchData = async (dispatch) => {
-  const allData = await (await Axios.post("/movie_data/fetch")).data;
+  try {
+    const allData = await (
+      await Axios.post('https://movie-backend-z7ch.onrender.com/movie_data/fetch')
+    ).data;
 
-  // Check if allData is an array before sorting
-  const filterDataWithTimeStamp = Array.isArray(allData)
-    ? await filterWithTimeStamp(allData)
-    : [];
+    const filterDataWithTimeStamp = Array.isArray(allData)
+      ? await filterWithTimeStamp(allData)
+      : [];
 
-  await setAllMoviesData(filterDataWithTimeStamp, dispatch);
-  await setNewMovies(filterDataWithTimeStamp, dispatch);
-  await setBollywoodMovies(filterDataWithTimeStamp, dispatch);
-  await setHollywoodMovies(filterDataWithTimeStamp, dispatch);
-  await setSeries(filterDataWithTimeStamp, dispatch);
+    await setAllMoviesData(filterDataWithTimeStamp, dispatch);
+    await setNewMovies(filterDataWithTimeStamp, dispatch);
+    await setBollywoodMovies(filterDataWithTimeStamp, dispatch);
+    await setHollywoodMovies(filterDataWithTimeStamp, dispatch);
+    await setSeries(filterDataWithTimeStamp, dispatch);
+  } catch (error) {
+    console.error("❌ Error fetching data:", error);
+  }
 };
 
 const filterWithTimeStamp = async (allData) => {
-  const filterData = await allData.sort((a, b) => {
-    if (a.TimeStamp < b.TimeStamp) {
-      return 1;
-    } else if (b.TimeStamp < a.TimeStamp) {
-      return -1;
-    }
-    return 0;
+  return allData.sort((a, b) => {
+    return b.TimeStamp - a.TimeStamp;
   });
-
-  return filterData;
 };
 
 const setAllMoviesData = async (allData, dispatch) => {
-  await dispatch({ type: "ALL_MOVIE_DATA", data: allData });
+  dispatch({ type: "ALL_MOVIE_DATA", data: allData });
 };
 
 const setNewMovies = async (allData, dispatch) => {
-  await dispatch({ type: "NEW_MOVIE_DATA", data: allData.slice(0, 8) });
+  dispatch({ type: "NEW_MOVIE_DATA", data: allData.slice(0, 8) });
 };
 
 const setBollywoodMovies = async (allData, dispatch) => {
-  const bollywood = await allData.filter((list) => {
-    if (list.Wood === "Bollywood") {
-      return list;
-    }
-  });
-  await dispatch({ type: "BOLLYWOOD_MOVIE", data: bollywood });
+  const bollywood = allData.filter((movie) => movie.Wood === "Bollywood");
+  dispatch({ type: "BOLLYWOOD_MOVIE", data: bollywood });
 };
 
 const setHollywoodMovies = async (allData, dispatch) => {
-  const hollywood = await allData.filter((list) => {
-    if (list.Wood === "Hollywood") {
-      return list;
-    }
-  });
-  await dispatch({ type: "HOLLYWOOD_MOVIE", data: hollywood });
+  const hollywood = allData.filter((movie) => movie.Wood === "Hollywood");
+  dispatch({ type: "HOLLYWOOD_MOVIE", data: hollywood });
 };
 
 const setSeries = async (allData, dispatch) => {
-  const series = await allData.filter((list) => {
-    if (list.Wood === "Series") {
-      return list;
-    }
-  });
-  await dispatch({ type: "SERIES", data: series });
+  const series = allData.filter((movie) => movie.Wood === "Series");
+  dispatch({ type: "SERIES", data: series });
 };
