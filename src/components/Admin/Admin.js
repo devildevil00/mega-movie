@@ -13,7 +13,7 @@ export default function Admin(props) {
     const checkAdmin = async () => {
       const secret = localStorage.getItem("Site_New_Tokken");
       if (secret) {
-        const res = await Axios.post("/admin/check", { secret });
+        const res = await Axios.post("https://movie-backend-z7ch.onrender.com/admin/check", { secret });
         if (res) {
           props.history.push("/A_D_M_I_N/Dashboard");
         } else {
@@ -36,7 +36,7 @@ export default function Admin(props) {
         onSubmit={async (e) => {
           try {
             e.preventDefault();
-            const res = await Axios.post("/admin", {
+            const res = await Axios.post("https://movie-backend-z7ch.onrender.com/admin", {
               email,
               password,
               secret,
@@ -47,7 +47,7 @@ export default function Admin(props) {
             if (secretCode) {
               //
 
-              const res = await Axios.post("/admin/check", {
+              const res = await Axios.post("https://movie-backend-z7ch.onrender.com/admin/check", {
                 secret: secretCode,
               });
               if (res) {
