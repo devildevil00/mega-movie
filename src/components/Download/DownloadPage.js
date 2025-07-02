@@ -14,7 +14,7 @@ export default function DownloadPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dt = await (await Axios.post(`/movie_data/fetch/${id}`)).data;
+        const dt = await (await Axios.post(`https://movie-backend-z7ch.onrender.com/movie_data/fetch/${id}`)).data;
 
         await setdata(dt[0]);
         document.title = dt[0].Name;
